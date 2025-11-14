@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block content %}
+
+    <div class="container mt-5">
+    <h1>{{ board_list.title }}</h1>
+        <p><strong>작성자:</strong> {{ board_list.user }}</p>
+        <p><strong>작성일:</strong> {{ board_list.date|date:"Y-m-d H:i" }}</p>
+        <br>
+{#    <p>이미지 개수: {{ images|length }}</p>#}
+        <p>
+{#            {% for image in images %}#}
+{#                images : 뷰에서 넘겨준 이미지 리스트(detail.uploaded_images.all()#}
+{#                <img src="{{ image.imgfile.url }}" alt="게시글 이미지" style="max-width: 100%;height:auto;">#}
+{#                <p>{{ image.imgfile.url }}</p>#}
+{#            {% endfor %}#}
+        </p>
+        <p>{{ board_list.content }}</p>
+
+        <a href="{% url 'board:edit' board_list.pk %}">수정</a> |
+        <a href="{% url 'board:delete' board_list.pk %}">삭제</a>
+    </div>
+    <br>
+    <div class="container mt-5">
+    <h5>댓글</h5>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary" style="">댓글 작성</button>
+        </div>
+    </form>
+
+    <ul style="list-style: none; padding-left: 0">
+        {% for comment in comments %}
+            <li>{{ comment.user_comment.username }}</li>
+            <li>{{ comment.content_comment }}</li>
+            <li style="font-size: small">{{ comment.date_comment|date:"Y-m-d H:i" }}</li>
+            {% empty %}
+            <li>댓글이 없습니다.</li>
+        {% endfor %}
+    </ul>
+    </div>
+
+    <a href="{% url 'board:board' %}">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            목록으로 돌아가기</button>
+    </a>
+
+
+{% endblock %}

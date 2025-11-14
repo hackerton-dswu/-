@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+
+<div class="container">
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% bootstrap_form board_form %} <!--{# board/views.py 93줄 context 앞쪽(템플릿에서 쓰이는 변수명) #}-->
+{#		{% bootstrap_form file_form %}#}
+		<input type="submit" class="btn btn-dark rounded-pill col-12" value="수정하기안하기" onclick="location.href='board/{{board.pk}}/'">
+	</form>
+	<br>
+	<p>기존 이미지</p>
+	{% for image in images %}
+		<img src="{{ image.imgfile.url }}" style="max-width: 300px;" class="img-thumbnail" alt="기존 이미지 섬네일">
+	{% endfor %}
+</div>
+
+{% endblock %}

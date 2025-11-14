@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <div style="width: 1200px; margin: 0px auto;">
+    <h2 style="text-align: center;width: 100%">게시판</h2><br>
+    {% if page_obj %}
+    <table style="text-align: center; width: 1200px; border: 1px solid black;" class="table">
+        <thead>
+            <tr class="th_color">
+                <th scope="col">id</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for board_list in page_obj %}
+            <tr class="td_color">
+            <td>{{ board_list.pk }}</td>
+                <td>
+                    <a href="{% url 'board:detail' board_list.pk %}">{{ board_list.title }}</a>
+                </td>
+                <td>{{ board_list.user }}</td>
+                <td>{{ board_list.date|date:"Y-m-d H:i" }}</td>
+            </tr>
+            {% empty %}
+                <li>게시글이 없습니다.</li>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+<!--{#<div style="width: 1200px; margin: 0px auto;">#}-->
+<!--{#    <h2 style="text-align: center;width: 100%">게시판</h2><br>#}-->
+<!--{#    {% if page_obj %}#}-->
+<!--{#    <table style="text-align: center; width: 1200px; border: 1px solid black;" class="table">#}-->
+<!--{#        <thead>#}-->
+<!--{#            <tr class="th_color">#}-->
+<!--{#                <th scope="col">번호</th>#}-->
+<!--{#                <th scope="col">시간</th>#}-->
+<!--{#                <th scope="col">제목</th>#}-->
+<!--{#                <th scope="col">내용</th>#}-->
+<!--{#                <th scope="col">작성자</th>#}-->
+<!--{#                <th scope="col">수정하기</th>#}-->
+<!--{#                <th scope="col">삭제하기</th>#}-->
+<!--{#            </tr>#}-->
+<!--{#        </thead>#}-->
+<!--{#        <tbody>#}-->
+<!--{#            {% for board_list in page_obj %}#}-->
+<!--{#            <tr class="td_color">#}-->
+<!--{#                <td>{{ board_list.pk }}</td>#}-->
+<!--{#                <td>{{ board_list.date }}</td>#}-->
+<!--{#                <td>{{ board_list.title }}</td>#}-->
+<!--{#                <td>{{ board_list.content }}</td>#}-->
+<!--{#                <td>{{ board_list.user }}</td>#}-->
+<!--{#                <td><button class="btn btn-secondary rounded-pill" onclick="location.href='{% url 'board:edit' board_list.pk %}'">수정</button></td>#}-->
+<!--                {# &lt;!&ndash; /board/edit/{{board_list.pk}}/' 또는 {% url 'edit' board_list.pk %} 사용 가능 &ndash;&gt; #}-->
+<!--                {# &lt;!&ndash; 후자는 urls.py에서 name='edit'으로 설정된 경로를 자동으로 찾기 때문에 더 안전함 &ndash;&gt;#}-->
+<!--{#                <td><button class="btn btn-danger rounded-pill" onclick="location.href='{% url 'board:delete' board_list.pk %}'">삭제</button></td>#}-->
+<!--{#            </tr>#}-->
+<!--{#        </tbody>#}-->
+<!--{#        {% endfor %}#}-->
+<!--{#    </table>#}-->
+<!--{#    {% endif %}#}-->
+
+<!--{#<span>페이징 1번</span>#}-->
+<!--{#{% include 'page_view.html' %}#}-->
+<!--{##}-->
+<!--{#<span>페이징 2번</span>#}-->
+<!--{#<nav>#}-->
+<!--{#    <ul class="pagination justify-content-center">#}-->
+<!--{#        {% if page_obj.has_previous %}#}-->
+<!--{#            <a class="page-link" href="?page=1">&laquo; first</a>#}-->
+<!--{#            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#        <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>#}-->
+<!--{#        <span class="page-link"> / </span>#}-->
+<!--{#        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>#}-->
+<!--{##}-->
+<!--{#        {% if page_obj.has_next %}#}-->
+<!--{#            <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>#}-->
+<!--{#            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#    </ul>#}-->
+<!--{#</nav>#}-->
+<!--{##}-->
+<!--{#<span>페이징 3번</span>#}-->
+<!--{#<nav>#}-->
+<!--{#    <ul class="pagination justify-content-center">#}-->
+<!--{#        {% if start_page %}#}-->
+<!--{#            <li class="page-item">#}-->
+<!--{#            <a class="page-link" href="{% url 'board' %}?page={{ page_range.0 | add:"-10" }}"> << </a>#}-->
+<!--{#            </li>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#        {% if page_obj.has_previous %}#}-->
+<!--{#            <li class="page-item">#}-->
+<!--{#            <a class="page-link" href="?page={{ page_obj.previous_page_number }}"> < </a>#}-->
+<!--{#            </li>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#    {% for i in page_range %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#        <a class="page-link" href="{% url 'board' %}?page={{ i }}"> {{ i }} </a>#}-->
+<!--{#        </li>#}-->
+<!--{#    {% endfor %}#}-->
+<!--{#    {% if page_obj.has_next %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#        <a class="page-link" href="?page={{ page_obj.next_page_number }}"> > </a>#}-->
+<!--{#        </li>#}-->
+<!--{#    {% endif %}#}-->
+<!--{#    {% if end_page %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#        <a class="page-link" href="{% url 'board' %}?page={{ page_range.0 | add:"10" }}"> >> </a>#}-->
+<!--{#    {% endif %}#}-->
+<!--{#    </ul>#}-->
+<!--{#</nav>#}-->
+<!--{##}-->
+<!--{#<span>페이징 4번</span>#}-->
+<!--{#&lt;!&ndash; 페이징처리 시작 &ndash;&gt;#}-->
+<!--{#    <ul class="pagination justify-content-center">#}-->
+<!--{#        &lt;!&ndash; 이전페이지 &ndash;&gt;#}-->
+<!--{#        {% if page_obj.has_previous %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>#}-->
+<!--{#        </li>#}-->
+<!--{#        {% else %}#}-->
+<!--{#        <li class="page-item disabled">#}-->
+<!--{#            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>#}-->
+<!--{#        </li>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#        &lt;!&ndash; 페이지리스트 &ndash;&gt;#}-->
+<!--{#        {% for page_number in page_obj.paginator.page_range %}#}-->
+<!--{#        {% if page_number == page_obj.number %}#}-->
+<!--{#        <li class="page-item active" aria-current="page">#}-->
+<!--{#            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>#}-->
+<!--{#        </li>#}-->
+<!--{#        {% else %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>#}-->
+<!--{#        </li>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#        {% endfor %}#}-->
+<!--{#        &lt;!&ndash; 다음페이지 &ndash;&gt;#}-->
+<!--{#        {% if page_obj.has_next %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#            <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>#}-->
+<!--{#        </li>#}-->
+<!--{#        {% else %}#}-->
+<!--{#        <li class="page-item disabled">#}-->
+<!--{#            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>#}-->
+<!--{#        </li>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#    </ul>#}-->
+<!--{#    &lt;!&ndash; 페이징처리 끝 &ndash;&gt;#}-->
+<!--{##}-->
+<!--{#<span>페이징 5번</span>#}-->
+<!--{#<div style="width: 500px; margin: 0 auto;">#}-->
+<!--{#    <ul class="pagination justify-content-center">#}-->
+<!--{#        {% if start_page %}#}-->
+<!--{#            <li class="page-item">#}-->
+<!--{#            <a class="page-link" href="{% url 'board' %}?page={{ page_range.0 | add:"-10" }}"> << </a>#}-->
+<!--{#            </li>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#        {% if info.has_previous %}#}-->
+<!--{#            <li class="page-item">#}-->
+<!--{#            <a class="page-link" href="{% url 'board' %}?page={{ info.previous_page_number }}"> < </a>#}-->
+<!--{#            </li>#}-->
+<!--{#        {% endif %}#}-->
+<!--{#    {% for i in page_range %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#        <a class="page-link" href="{% url 'board' %}?page={{ i }}"> {{ i }} </a>#}-->
+<!--{#        </li>#}-->
+<!--{#    {% endfor %}#}-->
+<!--{#    {% if info.has_next %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#        <a class="page-link" href="{% url 'board' %}?page={{ info.next_page_number }}"> > </a>#}-->
+<!--{#        </li>#}-->
+<!--{#    {% endif %}#}-->
+<!--{#    {% if end_page %}#}-->
+<!--{#        <li class="page-item">#}-->
+<!--{#        <a class="page-link" href="{% url 'board' %}?page={{ page_range.0 | add:"10" }}"> >> </a>#}-->
+<!--{#    {% endif %}#}-->
+<!--{#    </ul>#}-->
+<!--{#</div>#}-->
+
+<!--{#<span>페이징 6번</span>#}-->
+<div>
+  <ul class="pagination justify-content-center">
+  {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page=1">&laquo;</a>
+    </li>
+      {% else %}
+      <li class="page-item  disabled">
+      <a class="page-link" href="?page=1">&laquo;</a>
+    </li>
+  {% endif %}
+    {% for page_number in page_obj.paginator.page_range %}
+        {% if page_number == page_obj.number %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+  {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+    </li>
+      {% else %}
+      <li class="page-item disabled">
+      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+  {% endif %}
+  </ul>
+</div>
+
+
+{#    <div style="width: 500px; margin: 0 auto;">#}
+{#        <form action="" method="POST" style="max-width: 500px;width: 100%">#}
+{#            {% csrf_token %}#}
+{#            {% bootstrap_form boardForm %}#}
+{#            <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>#}
+{#        </form>#}
+{#    </div>#}
+<br>
+    <div style="width: 500px; margin: 0 auto;">
+        <a href="{% url 'upload' %}">
+            <button class="btn btn-primary rounded-pill col-12">글쓰기</button>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

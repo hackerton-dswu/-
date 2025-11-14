@@ -1,0 +1,39 @@
+<div style="float: right; background: none;z-index: 1000;" class="d-flex gap-3">
+    {% if user.is_authenticated %}
+        <div style="padding: 2px">
+        <a href="{% url 'board:board' %}">홈</a><br>
+        </div>
+        <div style="padding: 2px">
+{#        <a href="{% url 'accounts:logout' %}">로그아웃</a>#}
+        </div>
+
+    {% else %}
+        <div style="padding: 2px">
+        <a href="{% url 'board:board' %}">홈</a>
+        </div>
+        <div style="padding: 2px">
+{#        <a href="{% url 'accounts:login' %}">로그인</a>#}
+        </div>
+        <div style="padding: 2px">
+{#        <a href="{% url 'accounts:signup' %}">회원가입</a>#}
+        </div>
+    {% endif %}
+{#    <ul>#}
+{#            <div class="logout_div" >#}
+{#                <ul class="underline-hover">#}
+{#                    <li class="logout_text"><a href="{% url 'board:board' %}"><span>홈(로그인 됨)</span></a></li>#}
+{#                    <li class="logout_text"><a href="{% url 'board:board' %}"><span>게시판</span></a></li>#}
+{#                    <li class="logout_text"><a href="{% url 'accounts:logout' %}"><span>로그아웃</span></a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        {% else %}#}
+{#            <div class="login_div">#}
+{#                <ul class="underline-hover">#}
+{#                    <li class="login_text"><a href="{% url 'accounts:login' %}"><span>로그인</span></a></li>#}
+{#                    <li class="login_text"><a href="{% url 'accounts:signup' %}"><span>회원가입(로그인 안됨)</span></a></li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        {% endif %}#}
+{#    </ul>#}
+</div>
+
