@@ -16,9 +16,10 @@ from .serializers import *
 # Create your views here.
 def board_list(request):
     board=Board.objects.all()
-    serializer=BoardSerializer(board,many=True)
-    # board=Board.objects.all().values('id', 'title', 'content','user','date', 'generation').order_by('-pk')
-    return JsonResponse(serializer.data,status=status.HTTP_200_OK)
+    # serializer=BoardSerializer(board,many=True)
+    board=Board.objects.all().values('id', 'title', 'content','user','date', 'generation').order_by('-pk')
+    # return JsonResponse(serializer.data,status=status.HTTP_200_OK)
+    return JsonResponse({'board_list':list(board)})
 
 @csrf_exempt
 def board_upload(request):
