@@ -3,17 +3,24 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 import board
 
+
 # Create your models here.
 class Board(models.Model):
-    title=models.CharField(max_length=20)
+    title = models.CharField(max_length=20)
     content = models.TextField(blank=True)
     # writer=models.CharField(max_length=20,null=True)
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     date = models.DateTimeField(default=timezone.now)
-    generation=models.CharField(max_length=20,default='10대')
+    generation = models.CharField(max_length=20, default='10대')
+    like = models.ManyToManyField(User, related_name='liked_post', blank=True)
+    like_count = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        db_table = 'boards'
 
     def __str__(self):
         return self.title
+
 
 class Comments(models.Model):
     board_comment = models.ForeignKey(Board, related_name='comments', on_delete=models.CASCADE)
@@ -23,5 +30,7 @@ class Comments(models.Model):
     date_comment = models.DateTimeField(
         default=timezone.now)  # default=timezone.now로 설정되어 있으므로 저장할 때 자동으로 들어감. 사용자가 입력하지도 뷰에서 따로 설정하지도 않음.
 
+    class Meta:
+        db_table='comments'
     def __str__(self):
         return f'Comment by {self.user_comment.username} on {self.board_comment.title}'
