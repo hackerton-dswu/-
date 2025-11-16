@@ -9,7 +9,7 @@ class Board(models.Model):
     title = models.CharField(max_length=20)
     content = models.TextField(blank=True)
     # writer=models.CharField(max_length=20,null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True,blank=True)
     date = models.DateTimeField(default=timezone.now)
     generation = models.CharField(max_length=20, default='10대')
     like = models.ManyToManyField(User, related_name='liked_post', blank=True)
